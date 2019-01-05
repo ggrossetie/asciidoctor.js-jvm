@@ -1,0 +1,76 @@
+= Asciidoctor.js on the JVM
+
+== Build
+
+Use Maven to build the project:
+
+ $ mvn clean package
+
+== Benchmark
+
+=== GraalVM
+
+ /path/to/graalvm-jdk/bin/java -jar graalvm/target/asciidoctor-js-graalvm.jar
+
+=== Nashorn
+
+ /path/to/jdk/bin/java -jar nashorn/target/asciidoctor-js-nashorn.jar
+
+
+== Result
+
+.GraalVM (GraalVM CE 1.0.0-rc7)
+```
+time graalvm-ce-1.0.0-rc7/bin/java -jar graalvm/target/asciidoctor-js-graalvm.jar
+-- GraalVM
+warmup
+start
+Run create#1
+Run create#2
+Run create#3
+Run create#4
+Run create#5
+load: [217, 265, 193, 295, 279]
+instantiate: [168, 229, 140, 229, 642]
+Run call#1
+Run call#2
+Run call#3
+Run call#4
+Run call#5
+Run call#6
+Run call#7
+Run call#8
+Run call#9
+Run call#10
+convert: [9594, 5736, 4649, 3505, 3302, 3024, 2873, 2657, 2743, 2491]
+getVersion: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+graalvm-ce-1.0.0-rc7/bin/java -jar graalvm/target/asciidoctor-js-graalvm.jar  199,02s user 1,00s system 399% cpu 50,036 total
+```
+
+.Nashorn (JDK 11.0.1)
+```
+time jdk-11.0.1/bin/java -jar nashorn/target/asciidoctor-js-nashorn.jar
+-- Nashorn
+warmup
+start
+Run create#1
+Run create#2
+Run create#3
+Run create#4
+Run create#5
+load: [2800, 2594, 2647, 2738, 2804]
+instantiate: [3376, 3505, 3426, 3553, 3811]
+Run call#1
+Run call#2
+Run call#3
+Run call#4
+Run call#5
+Run call#6
+Run call#7
+Run call#8
+Run call#9
+Run call#10
+convert: [26290, 6871, 4726, 3627, 3024, 2466, 2119, 2156, 1990, 2276]
+getVersion: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+jdk-11.0.1/bin/java -jar nashorn/target/asciidoctor-js-nashorn.jar  298,17s user 1,88s system 229% cpu 2:10,87 total
+```
